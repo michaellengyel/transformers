@@ -1,0 +1,19 @@
+experiment_name: "official_en-it"
+hydra:
+  run:
+    dir: ./outputs/${now:%Y-%m-%d}_${now:%H-%M-%S}_${experiment_name}
+  job:
+    chdir: True
+num_workers: 0
+batch_size: 10
+num_epochs: 25
+lr: 0.0001
+seq_len: 350
+d_model: 512
+lang_src: "en"  # ca
+lang_tgt: "it"  # en
+tokenizer_file: "tokenizer_{0}.json"
+module: models.official  # official, custom
+model: Transformer
+device: "cuda:0"
+weights: "outputs/2024-12-23_00-32-01_custom/checkpoint.pth"
