@@ -29,6 +29,17 @@ python attention_visualization.py
 
 ### Results
 
+High similarity in training loss, reasonable to conclude that the custom implementation is correct.
+During experimantation, it was found that the model is very sensitive to parameter initialization.
+These results were achieved by using xavier_uniform only for the src and tgt nn.Embedding().
+
+<p align="center">
+  <img src="assets/tensorboard.png" alt="Centered Image">
+</p>
+<p align="center">
+  Black: official.py, Green: custom.py (it-en for 25 epoches with a batch size of 10)
+</p>
+
 ---
 
 ### Images
