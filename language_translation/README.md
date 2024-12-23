@@ -40,6 +40,13 @@ These results were achieved by using xavier_uniform only for the src and tgt nn.
   Black: official.py, Green: custom.py (it-en for 25 epoches with a batch size of 10)
 </p>
 
+<p align="center">
+  <img src="assets/cross_attention.png" alt="Centered Image">
+</p>
+<p align="center">
+  Cross-Attention between Encoder Key, Value and Decoder Query for Heads and Layers
+</p>
+
 ---
 
 ### Images
