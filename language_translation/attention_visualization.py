@@ -24,7 +24,7 @@ def load_next_batch(model, cfg, val_dataloader, tokenizer_src, tokenizer_tgt, de
 
     model_out = model.greedy_decode(encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, cfg.seq_len, device)
 
-    return batch, encoder_input_tokens, decoder_input_tokens
+    return batch, encoder_input_tokens, decoder_input_tokens, model_out
 
 
 def mtx2df(m, max_row, max_col, row_tokens, col_tokens):
@@ -102,9 +102,10 @@ def main(cfg : DictConfig):
     state = torch.load(Path(hydra.utils.get_original_cwd(), cfg.weights))
     model.load_state_dict(state['model_state_dict'])
 
-    batch, encoder_input_tokens, decoder_input_tokens = load_next_batch(model, cfg, val_dataloader, tokenizer_src, tokenizer_tgt, device)
+    batch, encoder_input_tokens, decoder_input_tokens, model_out = load_next_batch(model, cfg, val_dataloader, tokenizer_src, tokenizer_tgt, device)
     print(f'Source: {batch["src_text"][0]}')
     print(f'Target: {batch["tgt_text"][0]}')
+    print(f'Predicted: {tokenizer_tgt.decode(model_out.detach().cpu().numpy())}')
     sentence_len = encoder_input_tokens.index("[PAD]")
 
     layers = [0, 1, 2]
