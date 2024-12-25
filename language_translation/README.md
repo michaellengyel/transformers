@@ -27,6 +27,24 @@ python attention_visualization.py
 
 ---
 
+### Model Details
+
+nhead: 8  
+num_layers: 6  
+d_model: 512  
+dim_feedforward: 2048  
+src_vocab_size: 350  
+tgt_vocab_size: 350  
+dropout: 0.1  
+batch_first: True
+
+|| Parameters |
+|-|------------|
+|Official| 75,200,447 |
+|Custom| 75,202,495 |
+
+---
+
 ### Results
 
 High similarity in training loss, reasonable to conclude that the custom implementation is correct.
