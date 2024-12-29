@@ -7,6 +7,7 @@ Credit: https://github.com/karpathy/ng-video-lecture
 ---
 
 ### Execution
+
 Download Data:
 ```
 wget https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
@@ -53,14 +54,10 @@ blocks. Following this fix, the training and validation losses of these implemen
 were run for 20k iterations compared to Karpathy's 5k. This was done to find the starting point and severity of the
 overfit.
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: nowrap;">
-  <div style="text-align: center;">
-    <img src="assets/train_loss.png" alt="Image 1" style="max-width: 300px; max-height: 300px;">
-  </div>
-  <div style="text-align: center;">
-    <img src="assets/val_loss.png" alt="Image 2" style="max-width: 300px; max-height: 300px;">
-  </div>
-</div>
+<p align="center">
+  <img src="assets/train_loss.png" width="45%" />
+  <img src="assets/val_loss.png" width="45%" />
+</p>
 <p align="center">
   Black: official, Green: third_party, Purple: karpathy, Red: karpathy (fixed)
 </p>
