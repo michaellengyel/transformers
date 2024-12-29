@@ -3,51 +3,20 @@ import torch.nn as nn
 from torch.nn import functional as F
 
 
-class MultiHeadAttention(nn.Module):
+class MultiHeadAttentionWrapper(nn.Module):
     """ multiple heads of self-attention in parallel """
 
     def __init__(self, seq_len, d_model, h, dropout):
         super().__init__()
-
-        self.h = h
-        self.d_k = d_model // h
-        self.key = nn.Linear(d_model, d_model, bias=False)
-        self.query = nn.Linear(d_model, d_model, bias=False)
-        self.value = nn.Linear(d_model, d_model, bias=False)
-        self.register_buffer('tril', torch.tril(torch.ones(seq_len, seq_len)))
-        self.dropout = nn.Dropout(dropout)
-        self.proj = nn.Linear(self.d_k * h, d_model)
+        self.register_buffer('triu', torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool())
+        self.sa = nn.MultiheadAttention(embed_dim=d_model, num_heads=h, dropout=dropout, batch_first=True)
 
     def forward(self, x):
-        x = self.attention(x)
-        x = self.proj(x)
+        b, s, d_model = x.shape
+        mask = self.triu[:s, :s]
+        x = self.sa(x, x, x, attn_mask=mask, need_weights=False)[0]
         return x
 
-    def attention(self, x):
-        # (b, s, d_model)
-        b, s, d_model = x.shape
-        k = self.key(x)
-        q = self.query(x)
-        v = self.value(x)
-
-        # (b, s, d_model) -> (b, s, h, d_k) -> (b, h, s, d_k)
-        q = q.view(q.shape[0], q.shape[1], self.h, self.d_k).transpose(1, 2)
-        k = k.view(k.shape[0], k.shape[1], self.h, self.d_k).transpose(1, 2)
-        v = v.view(v.shape[0], v.shape[1], self.h, self.d_k).transpose(1, 2)
-
-        # Compute attention scores ("affinities")
-        d_k = q.shape[-1]
-        wei = q @ k.transpose(-2,-1) * d_k ** -0.5  # (b, s, d_k) @ (b, d_k, s) -> (b, s, s)
-        wei = wei.masked_fill(self.tril[:s, :s] == 0, float('-inf'))  # (b, s, s)
-        wei = F.softmax(wei, dim=-1)  # (b, s, s)
-        wei = self.dropout(wei)
-
-        # perform the weighted aggregation of the values
-        out = wei @ v  # (b, s, s) @ (b, s, d_k) -> (b, s, d_k)
-
-        # Reshape to (b, s, d_model)
-        out = out.transpose(1, 2).contiguous().view(x.shape[0], -1, self.h * self.d_k)
-        return out
 
 class FeedFoward(nn.Module):
     """ a simple linear layer followed by a non-linearity """
@@ -70,7 +39,7 @@ class Block(nn.Module):
     def __init__(self, seq_len, d_model, h, dropout, d_ff):
         # d_model: embedding dimension, h: the number of heads we'd like
         super().__init__()
-        self.sa = MultiHeadAttention(seq_len, d_model, h, dropout)
+        self.sa = MultiHeadAttentionWrapper(seq_len, d_model, h, dropout)
         self.ffwd = FeedFoward(d_model, dropout, d_ff)
         self.ln1 = nn.LayerNorm(d_model)
         self.ln2 = nn.LayerNorm(d_model)
