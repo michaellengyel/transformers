@@ -6,6 +6,10 @@
 
 ---
 
+## [Language Prediction](./language_prediction/)
+
+---
+
 ## Continuous Timeseries Forecasting
 
 ---

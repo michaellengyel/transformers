@@ -53,17 +53,18 @@ blocks. Following this fix, the training and validation losses of these implemen
 were run for 20k iterations compared to Karpathy's 5k. This was done to find the starting point and severity of the
 overfit.
 
-<div style="display: flex; justify-content: center; align-items: center;">
-  <div style="text-align: center; margin: 0 10px;">
-    <img src="assets/train_loss.png" alt="Image 1">
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: nowrap;">
+  <div style="text-align: center;">
+    <img src="assets/train_loss.png">
   </div>
-  <div style="text-align: center; margin: 0 10px;">
-    <img src="assets/val_loss.png" alt="Image 2">
+  <div style="text-align: center;">
+    <img src="assets/val_loss.png">
   </div>
 </div>
 <p align="center">
   Black: official, Green: third_party, Purple: karpathy, Red: karpathy (fixed)
 </p>
+
 
 ---
 
