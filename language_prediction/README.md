@@ -2,7 +2,8 @@
 Benchmarking Andrey Karpathy's language prediction implementation against the official pytorch nn.TransformerEncoder
 (Decoder) and 3rd party implementation.  
 
-Credit: https://github.com/karpathy/ng-video-lecture
+Paper: https://arxiv.org/abs/2005.14165
+Source: https://github.com/karpathy/ng-video-lecture
 
 ---
 
