@@ -1,7 +1,7 @@
 # Language Translation
 Benchmarking a from scratch implementation against the official pytorch Transformer  
 
-Papers: https://arxiv.org/abs/1706.03762  
+Paper: https://arxiv.org/abs/1706.03762  
 Sources: https://github.com/hkproj/pytorch-transformer  
 
 ---
