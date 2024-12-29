@@ -1,6 +1,7 @@
 # Language Prediction
 Benchmarking Andrey Karpathy's language prediction implementation against the official pytorch nn.TransformerEncoder
-(Decoder) and 3rd party implementation.  
+(Decoder) and 3rd party implementation. Improvements made to the original code include adding a missing Dropout() and
+parallelizing the calculation of heads, resulting in a minor speed increase.  
 
 Paper: https://arxiv.org/abs/2005.14165  
 Source: https://github.com/karpathy/ng-video-lecture  
@@ -38,13 +39,14 @@ dropout: 0.2
 batch_first: True  
 norm_first: True  
 
-|                  | Parameters |
-|------------------|------------|
-| official         | 10,795,841 |
-| karpathy         | 10,788,929 |
-| karpathy (fixed) | 10,788,929 |
-| third_party      | 10,795,841 |
-| einops           | 10,788,929 |
+|                   | Parameters |
+|-------------------|------------|
+| official          | 10,795,841 |
+| karpathy          | 10,788,929 |
+| karpathy (fixed)  | 10,788,929 |
+| karpathy_parallel | 10,788,929 |
+| third_party       | 10,795,841 |
+| einops            | 10,788,929 |
 
 ---
 

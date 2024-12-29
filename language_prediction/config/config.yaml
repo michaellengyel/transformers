@@ -26,7 +26,7 @@ device: "cuda:0"
 max_iters: 20000
 eval_interval: 500
 lr: 3e-4
-module: models.official  # official, third_party, karpathy, einops
+module: models.official  # official, third_party, karpathy, karpathy_parallel, einops
 model: GPT
 model_args:
   d_model: 384
