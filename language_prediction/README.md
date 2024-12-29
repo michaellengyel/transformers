@@ -55,16 +55,15 @@ overfit.
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: nowrap;">
   <div style="text-align: center;">
-    <img src="assets/train_loss.png">
+    <img src="assets/train_loss.png" alt="Image 1" style="max-width: 300px; max-height: 300px;">
   </div>
   <div style="text-align: center;">
-    <img src="assets/val_loss.png">
+    <img src="assets/val_loss.png" alt="Image 2" style="max-width: 300px; max-height: 300px;">
   </div>
 </div>
 <p align="center">
   Black: official, Green: third_party, Purple: karpathy, Red: karpathy (fixed)
 </p>
-
 
 ---
 
