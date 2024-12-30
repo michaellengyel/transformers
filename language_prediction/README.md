@@ -3,6 +3,16 @@ Benchmarking Andrey Karpathy's language prediction implementation against the of
 (Decoder) and 3rd party implementation. Improvements made to the original code include adding a missing Dropout() and
 parallelizing the calculation of heads, resulting in a minor speed increase.  
 
+#### Attention as explained by Karpathy:
+*Attention is a communication mechanism, a graph, where information is aggregated in a data dependent manner based on
+the strength of the connections.*  
+
+*The Query: What am I interested in*  
+*The Key: What I have*  
+*The Affinities: Query @ Key.T (dot product of Keys and Queries)*  
+*The Value: What I will communicate*  
+*The Output: Affinities @ Value (aggregated Values)*  
+
 Paper: https://arxiv.org/abs/2005.14165  
 Source: https://github.com/karpathy/ng-video-lecture  
 
