@@ -17,9 +17,7 @@ python sample.py
 
 # Notable Points
 
-Tiktokenizer: https://tiktokenizer.vercel.app/?model=gpt2
-
-* Tokenization done by tiktoken library
+* Tokenization done by tiktoken library: https://tiktokenizer.vercel.app/?model=gpt2
 * <|endoftext|> as a special token
 * Use of Flash Attention CUDA kernels: torch.nn.functional.scaled_dot_product_attention() (pytorch 2.0)
 * By default, nn.Linear and nn.Embedding is initialized with: torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
