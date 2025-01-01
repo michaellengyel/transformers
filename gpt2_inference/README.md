@@ -25,11 +25,39 @@ python sample.py
 
 ---
 
-# Visualization of Attention Masks
+# Visualization
+
+### Attention Masks During inference
 
 Visualization of the n-th head of the first 4 layers for a range of 256 using the <|endoftext|> as the initial token.  
 
 ![Teaser](./assets/attention.gif?raw=true)
+
+### Positional and Token Embeddings
+
+| Mean    | Std    | Min     | Max    |
+|---------|--------|---------|--------|
+| -0.0007 | 0.1227 | -4.5381 | 4.0653 |
+
+
+Sigmoid applied before plotting. Note that the nn.Embedding is just a 2-D tensor, that provided a mapping between a
+column id and a vector. Calling the forward() for torch.arange(0, 1024) and embedding.weight returns the same tensor.
+Tempting to think of enforcing some constraint, such that the learned embeddings are always of unit length.
+
+<p align="center">
+  <img src="assets/pos_emb.png" width="100%" />
+</p>
+
+<p align="center">
+  <img src="assets/pos_emb_values.png" width="100%" />
+</p>
+
+There is a clear pattern in the range of [177-219].
+
+<p align="center">
+  <img src="assets/tok_emb.png" width="100%" />
+</p>
+
 
 ---
 
