@@ -18,7 +18,7 @@ Source: https://github.com/karpathy/ng-video-lecture
 
 ---
 
-### Execution
+### Executionv
 
 Download Data:
 ```
@@ -49,7 +49,7 @@ dropout: 0.2
 batch_first: True  
 norm_first: True  
 
-|                       | Parameters |
+| Model                 | Parameters |
 |-----------------------|------------|
 | official              | 10,795,841 |
 | karpathy              | 10,788,929 |

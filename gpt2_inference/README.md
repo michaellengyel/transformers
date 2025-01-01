@@ -33,7 +33,7 @@ Visualization of the n-th head of the first 4 layers for a range of 256 using th
 
 ![Teaser](./assets/attention.gif?raw=true)
 
-### Positional and Token Embeddings
+### Positional Embeddings
 
 | Mean    | Std    | Min     | Max    |
 |---------|--------|---------|--------|
@@ -52,7 +52,22 @@ Tempting to think of enforcing some constraint, such that the learned embeddings
   <img src="assets/pos_emb_values.png" width="100%" />
 </p>
 
-There is a clear pattern in the range of [177-219].
+### Token Embeddings
+
+There is a clear pattern of similar emveddings in the range of [177-219]. Based on the [GPT-2 encoder.json][reference],
+these values represent the following UTF16 characters.
+
+[reference]: https://github.com/graykode/gpt-2-Pytorch/blob/master/GPT2/encoder.json
+```
+"\u00f5": 177, "\u00f6": 178, "\u00f7": 179, "\u00f8": 180, "\u00f9": 181, "\u00fa": 182, "\u00fb": 183, "\u00fc": 184, "\u00fd": 185, "\u00fe": 186, "\u00ff": 187, "\u0100": 188, "\u0101": 189, "\u0102": 190, "\u0103": 191, "\u0104": 192, "\u0105": 193, "\u0106": 194, "\u0107": 195, "\u0108": 196, "\u0109": 197, "\u010a": 198, "\u010b": 199, "\u010c": 200, "\u010d": 201, "\u010e": 202, "\u010f": 203, "\u0110": 204, "\u0111": 205, "\u0112": 206, "\u0113": 207, "\u0114": 208, "\u0115": 209, "\u0116": 210, "\u0117": 211, "\u0118": 212, "\u0119": 213, "\u011a": 214, "\u011b": 215, "\u011c": 216, "\u011d": 217, "\u011e": 218, "\u011f": 219,
+```
+
+Decoding them using a UTF16 decoder results in the following characters. Assumption is that these characters are
+under-represented in the training dataset, resulting in relatively similar looking token embeddings.
+
+```
+õ, ö, ÷, ø, ù, ú, û, ü, ý, þ, ÿ, Ā, ā, Ă, ă, Ą, ą, Ć, ć, Ĉ, ĉ, Ċ, ċ, Č, č, Ď, ď, Đ, đ, Ē, ē, Ĕ, ĕ, Ė, ė, Ę, ę, Ě, ě, Ĝ, ĝ, Ğ, ğ
+```
 
 <p align="center">
   <img src="assets/tok_emb.png" width="100%" />
