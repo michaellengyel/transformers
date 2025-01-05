@@ -25,9 +25,8 @@ DETR + Deformable Attention
 
 Paper: https://arxiv.org/abs/2005.12872  
 GitHub: https://github.com/fundamentalvision/Deformable-DETR  
+Video: https://www.youtube.com/watch?v=9UG4amweIjk  
 Video: https://www.youtube.com/watch?v=3M9mS_3eiaw  
-Video: 
-
 
 The star of the show is the custom autograd function: MSDeformAttnFunction.apply(). This function is called by the
 MSDeformAttn(nn.Module) module's forward(). The MSDeformAttn is used in place of nn.MultiheadAttention.
@@ -53,13 +52,20 @@ sh ./make.sh
   <img src="assets/deformable_detr.png" width="100%" />
 </p>
 
-### MSDeformAttnFunction.apply()  
+### MSDeformAttnFunction.apply() (Encoder)
+
+In self-attention, we only create Queries and Values.
+Queries are projected to predict (4 x (x_offset, y_offset, attention_weight)) relative to a reference point (Queries grid location) on the feature map.
+These offset point plus the current reference point are used to interpolate into the Values tensor using bilinear interpolation.
+The resulting attention_weight is used to calculate a weighted average, resulting in the output sequence.
+This is then passed through the classical Transformer feed-forward network.  
 
 **value:**  
 torch.Size([2, 10723, 8, 32])  
 (batch_size, num_queries, num_heads, dim_per_head)  
 10723 is the sum of all feature vectors on all scales: (10723, 256), the 256 is split up to 8 heads.  
-10723=(76×106)+(38×53)+(19×27)+(10×14)  
+10723=(76×106)+(38×53)+(19×27)+(10×14)
+Note that this 10723 changes based on shape of image which changes per batch, this was for (608, 843)  
 
 **value_spatial_shapes:**  
 torch.Size([4, 2])  
@@ -94,13 +100,53 @@ torch.Size([2, 10723, 256])
 256 = 8 * 32 = num_heads * dim_per_head  
 (batch_size, num_queries, embed_dim)  
 
+### MSDeformAttnFunction.apply() (Decoder)
+
+In cross-attention, we only create Queries and Values.
+300 pseudo Queries are projected to predict (4 x (x_offset, y_offset, attention_weight)).
+Since in this case, the Queries don't have a reference location, so they seem to be initialized via uniform distribution. 
+They are learnable parameters of size torch.Size([b, 300, 2]). 
+The offsets to these are of size torch.Size([b, 300, 4, 2]), where 4 is the number of feature scales.
+This is then turned into the sampling_locations of size torch.Size([2, 300, 8, 4, 4, 2]).
+
+Some things change in the decoder, mainly, there are only a hardcoded set of 300 queries (300 potential object
+detections)
+
+**value (memory):**  
+torch.Size([2, 10723, 8, 32])
+
+**sampling_locations:**  
+torch.Size([2, 300, 8, 4, 4, 2])
+
+**attention_weights:**  
+torch.Size([2, 300, 8, 4, 4])
+
+**output:**  
+torch.Size([2, 300, 256])
+
 ```
 output = MSDeformAttnFunction.apply(value, value_spatial_shapes, value_level_start_index, sampling_locations, attention_weights, im2col_step)
 ```
 
-
 <p align="center">
   <img src="assets/deformable_attention.png" width="100%" />
+</p>
+
+<p align="center">
+  <img src="assets/offsets_t0k.png" width="32%" />
+  <img src="assets/offsets_t30k.png" width="32%" />
+</p>
+<p align="center">
+  Left: iter 1, Right: iter 30k, Offset coodiantes for head 0, scale 0 before and after some training
+</p>
+
+<p align="center">
+  <img src="assets/heads.png" width="32%" />
+  <img src="assets/levels.png" width="32%" />
+  <img src="assets/offsets.png" width="32%" />
+</p>
+<p align="center">
+  Left: Heads, Center: Scales, Right: Offsets
 </p>
 
 ---
