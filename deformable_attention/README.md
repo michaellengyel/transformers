@@ -153,8 +153,20 @@ output = MSDeformAttnFunction.apply(value, value_spatial_shapes, value_level_sta
 
 ## DAT (Deformable Attention Transformer)
 
+Implements multiple types of attentions: NeighborhoodAttention2D, FusedKQnA, SlideAttention  
+
 Paper: https://arxiv.org/abs/2201.00520  
 GitHub: https://github.com/LeapLabTHU/DAT  
+
+Uses a version of deformable attention called Neighborhood Attention implemented in the NATTEN library.  
+NATTEN: https://pypi.org/project/natten/  
+
+```
+from natten.functional import NATTEN2DQKRPBFunction, NATTEN2DAVFunction
+```
+
+NATTEN2DQKRPBFunction: Neighborhood Attention 2D Query-Key Relative Position Bias Function  
+NATTEN2DAVFunction: Neighborhood Attention 2D Attention Values Function
 
 ---
 
@@ -164,3 +176,14 @@ Paper: https://arxiv.org/abs/2309.01430
 
 ---
 
+## DAB
+
+---
+
+## DINO
+
+---
+
+## co-DETR
+
+---
