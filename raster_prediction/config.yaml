@@ -1,0 +1,20 @@
+data:
+  name: RgbDots
+  args:
+    num_samples: 2000000
+    data_shape: [64, 64]
+model:
+  name: Transformer
+  args:
+    in_channels: 3
+    d_model: 64
+    input_shape: [64, 64]
+    nhead: 8
+    dim_feedforward: 256
+    num_layers: 6
+    encoder: Encoder
+    decoder: Decoder
+    transformer: PersonalTransformerEncoder
+lr: 0.0005
+batch_size: 104
+device: 'cuda:1'

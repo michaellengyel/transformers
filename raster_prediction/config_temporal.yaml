@@ -1,0 +1,22 @@
+data:
+  name: TemporalDots
+  args:
+    num_samples: 1000000
+    data_shape: [64, 64]
+    past_seq_len: 2
+    pred_seq_len: 2
+model:
+  name: TemporalTransformer
+  args:
+    in_channels: 1
+    d_model: 64
+    input_shape: [64, 64]
+    nhead: 8
+    dim_feedforward: 256
+    num_layers: 6
+    encoder: Encoder
+    decoder: Decoder
+    transformer: PersonalTransformerEncoder
+lr: 0.001
+batch_size: 32
+device: 'cuda:0'
